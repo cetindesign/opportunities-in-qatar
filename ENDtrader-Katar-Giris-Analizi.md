@@ -146,43 +146,54 @@ Bu, önceki sigorta raporunun sonucuyla aynı örüntü ("Katar'ı sonraya bıra
 
 ## 6.1 "Kurumsal Algoritmik İcra & Risk Altyapısı" — Bileşen Haritası
 
-**Ana içgörü:** ENDtrader, bir kripto botu olarak yazılırken aslında lisanslı kurumların **regülasyon
-gereği zorunlu tuttuğu** bir algo-yönetişim/risk katmanı inşa etti. Pivot = bu makineyi son-kullanıcıdan
+**Ana içgörü:** ENDtrader, bir kripto botu olarak yazılırken aslında lisanslı kurumların **yönetişim/risk
+yükümlülüklerine denk düşen** bir algo-kontrol katmanı inşa etti. Pivot = bu makineyi son-kullanıcıdan
 alıp **lisanslı kurumun altına kontrol katmanı** olarak koymak. Sen parayı tutmaz/işlem yapmazsın →
-**regüle değilsin** (QFC B2B FinTech lisansı). Alıcı, algo koşan her lisanslı kurum; talep regülasyon-zorunlu.
+**regüle değilsin** (QFC B2B FinTech lisansı, hukukçu teyidiyle). Alıcı: algo/otomasyon koşan lisanslı kurum.
 
-| Sende var (dokümandan) | Kurumsal karşılığı | Alıcı / regülasyon bağı |
-|---|---|---|
-| SOP v2 — 3 katman doğrulama (K1/K2/K3, fail-closed, gerekçeli ret) §5 | İşlem-öncesi doğrulama / sinyal geçidi | Algo-yönetişim |
-| Risk kalkanları (günlük zarar, ardışık stop, portföy ısısı, olay kilidi, max pozisyon) §6 | **İşlem-öncesi risk limitleri + kill-switch** | Algo-yönetişim gereği (bkz. ⚠️ regülasyon notu) |
-| Karar log'u (`v3_decision_log` + heartbeat) §2,11 | Denetim izi / karar günlüğü | RegTech; regülatöre kanıt |
-| Backtest + optimizer (dinamik komisyon/kayma) §12 | Devreye-alma öncesi strateji testi | Regülatör algo testini ister |
-| Rejim tespiti (ATR/ADX/Hurst + AI) §3 | Piyasa-durumu analitiği | Quant/araştırma modülü |
-| İcra (maker-chase, limit TP, failsafe) §8 | Akıllı emir icrası / execution algo | EMS-lite modül |
-| Pozisyon yaşam döngüsü (SL/TP yedeği, stale/trailing/rejim çıkışı) §9 | Otomatik pozisyon & çıkış yönetimi | Operasyon modülü |
-| Boyutlandırma & kaldıraç motoru §7 | Pozisyon boyutlandırma / sermaye tahsisi | Risk/portföy modülü |
-| Çok-kiracılı mimari + şifreli anahtar + dashboard/Telegram §2,11 | Çok-hesaplı kontrol paneli + izleme/alarm | Kurumsal ops |
-| Haber/takvim kalkanı §6 | Olay-riski kontrolleri | Risk modülü |
+**Tablo okuma anahtarı — iki ayrı güven:** *(a) Bileşen* = sizin dokümanınızdan, **Yüksek**. *(b) Katar
+regülasyon kancası* = 3. doğrulama turunda atfı düzeltilmiş; **QFMA taslağı (2025, fazlı→2027)** ve
+**QFCRA CTRL 2020 (yürürlükte, genel)** temelli. Detay + pazar uyarısı tablonun altında.
+
+| # | Bileşen (sende var — **Yüksek güven**) | Kurumsal karşılığı | Katar regülasyon kancası (doğru atıf) | Kanca güveni |
+|---|---|---|---|---|
+| 1 | SOP v2 — 3 katman doğrulama (fail-closed, gerekçeli ret) §5 | İşlem-öncesi doğrulama / sinyal geçidi | QFMA taslak: algo sistem testi/denetimi + manipülasyon önleme | Orta *(taslak)* |
+| 2 | Risk kalkanları + acil durdurma (fail-closed) §6 | İşlem-öncesi risk limitleri + **kill-switch** | QFCRA CTRL 2020: "etkin sistem-kontrol + risk yönetimi" *(yürürlükte, genel)*; QFMA taslak: gerçek-zamanlı izleme | **Orta-Yüksek** *(genel)* / Orta *(algo-özel, taslak)* |
+| 3 | Karar log'u (`v3_decision_log` + heartbeat) §2,11 | Denetim izi / karar günlüğü + açıklanabilirlik | QFMA taslak: izleme+test+denetim, **karar kriterlerinin ifşası**; QFCRA: bağımsız denetim | Orta |
+| 4 | Backtest + optimizer (dinamik komisyon/kayma) §12 | Devreye-alma öncesi test/simülasyon | QFMA taslak: algo'nun **devreye-alma öncesi test/validasyonu** | Orta *(taslak)* |
+| 5 | Rejim tespiti (ATR/ADX/Hurst + AI) §3 | Piyasa-durumu analitiği | *Doğrudan kanca yok — ürün özelliği* | — |
+| 6 | İcra (maker-chase, limit TP, failsafe) §8 | Akıllı emir icrası / execution algo | QSE Millennium (LSEG) + 2025'te başlayan piyasa yapıcılık; algo/DMA sahnesi **emekleme** | Düşük-Orta *(nascent)* |
+| 7 | Pozisyon yaşam döngüsü + çıkışlar §9 | Otomatik pozisyon & çıkış yönetimi | *Operasyonel; doğrudan kanca yok* | — |
+| 8 | Boyutlandırma & kaldıraç motoru §7 | Pozisyon boyutlandırma / sermaye tahsisi | QFCRA CTRL: risk yönetimi sistemleri *(genel)* | Orta |
+| 9 | Çok-kiracılı + şifreli anahtar + dashboard/uyarı §2,11 | Kontrol paneli + gerçek-zamanlı izleme/alarm | QFMA taslak: gerçek-zamanlı izleme + **"anlamlı insan gözetimi"** | Orta |
+| 10 | Haber/takvim kalkanı §6 | Olay-riski kontrolleri | *Operasyonel risk; dolaylı* | Düşük-Orta |
 
 **En keskin tek ürün — "Algo-Trading Yönetişim & Risk Katmanı" (RegTech):** yukarıdaki satır 1+2+3+4+9+10.
 RegTech Katar önceliği; en zor kısımlar (%~70) zaten hazır. Varlık sınıfı: hisse, sukuk, FX, tokenize RWA
 (kripto DEĞİL).
 
-> ### ⚠️ Regülasyon notu — "zorunlu talep" iddiası düzeltmesi (14 Tem, 2. doğrulama turu)
-> İlk taslakta "QFCRA algo kuralları bu kontrolleri **zorunlu tutar**" (⭐) demiştim. **Bu doğrulanmadı** ve
-> düzeltiliyor:
-> - Detaylı **işlem-öncesi risk kontrolü / kill-switch zorunlulukları ABD/AB kaynaklıdır** (FINRA, SEC,
->   CFTC Reg AT, MiFID II RTS 6) — **Katar mevzuatı değil.** MiFID II'den analojiyle Katar hukukuymuş gibi
->   sunmak hataydı. [Güven: Yüksek — ama başka yargı çevresi]
-> - **Katar'a özgü:** QFCRA'nın yürürlükte, MiFID II-tarzı detaylı bir algo kural kitabı **bulunamadı.**
->   Bunun yerine **QFMA** (yerel sermaye piyasası regülatörü; QFCRA'dan farklı) **Mayıs 2025 taslak AI
->   düzenlemesi** — algo işlemde gerçek-zamanlı izleme + insan gözetimi — sinyali var. **Taslak + ikincil
->   kaynak. [Güven: Düşük–Orta, teyit edilmeli]**
-> - **Sonuç:** İddianın *yönü* doğru (Katar bu regülasyona gidiyor → **zamanlama/erken-hareket avantajı**),
->   ama "**bugün sert yasal zorunluluk → kesin satın alma**" çerçevesi **kanıtlanmadı.** Pitch bunu
->   "gelen regülasyona hazırlık" olarak kurmalı, "mevcut zorunluluk" olarak değil.
-> - **Pazar büyüklüğü uyarısı:** Katar'da fiilen algo-trading yapan lisanslı kurum sayısı muhtemelen az;
->   "regülasyon-zorunlu talep" pratikte ince olabilir. QFMA/QFCRA + QSE nezdinde saha doğrulaması şart.
+> ### 🔎 Doğrulama turu 3 (14 Tem) — regülasyon güçlendi, TALEP zayıf
+> **Düzeltme geçmişi:** İlk taslakta "QFCRA algo kuralları bunu **zorunlu tutar**" (⭐) demiştim; 2. turda
+> bunun ABD/AB kaynaklı (FINRA/MiFID II RTS 6) olduğunu, Katar mevzuatı olmadığını kabul ettim. 3. tur
+> resmi netleştirdi:
+>
+> **Regülasyon tarafı — GÜÇLENDİ [Orta-Yüksek]:**
+> - **QFMA taslak AI düzenlemesi (Mayıs 2025)** artık çok sayıda ciddi hukuk kaynağıyla (Sultan Al-Abdulla
+>   & Partners, Mondaq, Charles Russell Speechlys, QNA resmî) doğrulandı: **algoritmik işlem** kapsamı +
+>   **gerçek-zamanlı izleme** + **test/denetim** + **açıklanabilirlik** + **"anlamlı insan gözetimi"**;
+>   fazlı uygulama **2027'ye kadar.** Ama hâlâ **taslak** — yürürlükte değil.
+> - **QFCRA CTRL 2020**: yetkili firmalar "etkin sistem-kontrol + risk yönetimi" tutmak **zorunda**
+>   (yürürlükte, ama genel — algo-özel değil).
+> - **Doğru çerçeve:** "bugün sert zorunluluk" DEĞİL → **"2025-2027'de gelen regülasyona erken hazırlık"**
+>   (zamanlama/erken-hareket avantajı gerçek).
+>
+> **Talep/pazar tarafı — ZAYIF [asıl risk]:**
+> - Katar'da **algo-trading sahnesi emekleme aşamasında:** piyasa yapıcılık ancak **2025'te** başladı
+>   (1 Ekim 2025, Wasata → tek hisse Mekdam); DMA/algo kuralına dair belge yok.
+> - QFC'de 2.489 firma (2024) var ama çoğu fintech/danışmanlık/IT; **fiilen algo koşan alıcı havuzu çok küçük.**
+> - **Sonuç:** Ürün regülasyona uygun, ama **Katar tek başına pazar olarak ince.** Bu, "sadece Katar" tezini
+>   zayıflatır; **rasyonel yapı: Katar = teşvikli üs + regülatif hizalanma, satış = GCC geneli** (BAE/Suudi
+>   buy-side ve algo/DMA sahnesi çok daha olgun). Karar öncesi QFMA/QFCRA + QSE + birkaç broker ile saha doğrulaması şart.
 
 **Boşluklar (dürüst):** bugün kripto/Bybit'e bağlı → çok-varlık + kurumsal venue/OMS/**FIX** bağlayıcıları,
 kurumsal kimlik (SSO/roller), SLA, on-prem/özel bulut gerekir. "Retail-kâr botu" DNA'sı → "kurumun stratejisini
@@ -205,7 +216,14 @@ güvenle koşturan araç" DNA'sına geçmeli. Pazar küçük (az lisanslı kurum
 - [QFC — What We License (B2B FinTech)](https://www.qfc.qa/en/registering-a-company/what-we-license)
 - [FINRA — Algorithmic Trading (ABD; pre-trade kontrol/kill-switch bağlamı — Katar değil, analoji)](https://www.finra.org/rules-guidance/key-topics/algorithmic-trading)
 - [Kroll — Algorithmic Trading under MiFID II (RTS 6; AB — analoji)](https://www.kroll.com/en/publications/financial-compliance-regulation/algorithmic-trading-under-mifid-ii)
-- [QFMA Mayıs 2025 taslak AI/algo düzenlemesi bağlamı (ikincil kaynak — teyit edilmeli)](https://orbit.reconn.io/iso-42001-qatar/)
+- [QFMA taslak AI düzenlemesi — Sultan Al-Abdulla & Partners (hukuk)](https://qatarlaw.com/news/the-qatar-financial-markets-authority-announces-draft-regulations-on-artificial-intelligence-use)
+- [QFMA taslak AI düzenlemesi — Mondaq (hukuk)](https://www.mondaq.com/financial-services/1630606/the-qatar-financial-markets-authority-announces-draft-regulations-on-artificial-intelligence-use)
+- [QNA resmî — QFMA AI düzenlemesi "yakında" (12 May 2025)](https://qna.org.qa/en/news/news-details?id=qfma-official-to-qna-draft-regulation-on-ai-use-in-financial-market-to-be-issued-soon&date=12/05/2025)
+- [Charles Russell Speechlys — Qatar piyasa davranışı kodifikasyonu (algo dahil)](https://www.charlesrussellspeechlys.com/en/insights/expert-insights/corporate/2025/defining-market-boundaries-qatar-codifies-financial-market-conduct/)
+- [QFCRA — Governance & Controlled Functions (CTRL) / sistem-kontrol yükümlülüğü](https://www.qfcra.com/governance-and-controlled-functions/)
+- [QFCRA — Rules for Authorised Firms](https://www.qfcra.com/rules-for-authorised-firms/)
+- [The Peninsula — QFC'de 2024'te 800+ yeni firma, toplam 2.489](https://thepeninsulaqatar.com/article/29/01/2025/over-800-new-firms-registered-with-qatar-financial-center-in-2024-recording-156-growth)
+- [QSE piyasa yapıcılık / likidite sağlayıcı (2025 başlangıcı) bağlamı](https://algotradinglib.com/en/pedia/q/qatar_stock_exchange_(qse).html)
 - İlgili: bu depodaki `Startup-Qatar-Fintech-Giris-Raporu.md` (teşvik kapıları) ve `Katar-Sigorta-Firsat-Raporu.md` ("Katar'ı sonraya bırak" örüntüsü).
 
 ---
