@@ -12,6 +12,9 @@ taşıyıcı-olmayan kurucu. Coğrafya: Katar (birincil), GCC (ikincil).
 - **[Katar-Sigorta-Firsat-Raporu.md](./Katar-Sigorta-Firsat-Raporu.md)** — ana rapor (yönetici özeti,
   bulgular, fırsat karşılaştırması, öneri, karşı-argümanlar, doğrulanamayanlar, kaynaklar, sınırlar).
 - **[EK-Dogrulama-Fisleri.md](./EK-Dogrulama-Fisleri.md)** — her yük-taşıyan iddia için doğrulama fişleri.
+- **[Startup-Qatar-Fintech-Giris-Raporu.md](./Startup-Qatar-Fintech-Giris-Raporu.md)** — Startup Qatar
+  platformunun talep kategorileri (sektörler + destek türleri), FinTech'ten giriş yolu (QFTH / QCB Sandbox /
+  QFC), seçim kriterleri ve solo/yabancı kurucu için enabler ürün yönleri.
 
 ## Yöntem
 1 kapsam + 5 paralel araştırma + 2 bağımsız fact-checker (çürütme odaklı) + 1 kırmızı-takım ajanı; ardından
