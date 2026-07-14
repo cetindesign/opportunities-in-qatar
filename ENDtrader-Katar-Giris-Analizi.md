@@ -144,6 +144,36 @@ Bu, önceki sigorta raporunun sonucuyla aynı örüntü ("Katar'ı sonraya bıra
 
 ---
 
+## 6.1 "Kurumsal Algoritmik İcra & Risk Altyapısı" — Bileşen Haritası
+
+**Ana içgörü:** ENDtrader, bir kripto botu olarak yazılırken aslında lisanslı kurumların **regülasyon
+gereği zorunlu tuttuğu** bir algo-yönetişim/risk katmanı inşa etti. Pivot = bu makineyi son-kullanıcıdan
+alıp **lisanslı kurumun altına kontrol katmanı** olarak koymak. Sen parayı tutmaz/işlem yapmazsın →
+**regüle değilsin** (QFC B2B FinTech lisansı). Alıcı, algo koşan her lisanslı kurum; talep regülasyon-zorunlu.
+
+| Sende var (dokümandan) | Kurumsal karşılığı | Alıcı / regülasyon bağı |
+|---|---|---|
+| SOP v2 — 3 katman doğrulama (K1/K2/K3, fail-closed, gerekçeli ret) §5 | İşlem-öncesi doğrulama / sinyal geçidi | Algo-yönetişim |
+| Risk kalkanları (günlük zarar, ardışık stop, portföy ısısı, olay kilidi, max pozisyon) §6 | **İşlem-öncesi risk limitleri + kill-switch** | ⭐ QFCRA algo kuralları zorunlu tutar |
+| Karar log'u (`v3_decision_log` + heartbeat) §2,11 | Denetim izi / karar günlüğü | RegTech; regülatöre kanıt |
+| Backtest + optimizer (dinamik komisyon/kayma) §12 | Devreye-alma öncesi strateji testi | Regülatör algo testini ister |
+| Rejim tespiti (ATR/ADX/Hurst + AI) §3 | Piyasa-durumu analitiği | Quant/araştırma modülü |
+| İcra (maker-chase, limit TP, failsafe) §8 | Akıllı emir icrası / execution algo | EMS-lite modül |
+| Pozisyon yaşam döngüsü (SL/TP yedeği, stale/trailing/rejim çıkışı) §9 | Otomatik pozisyon & çıkış yönetimi | Operasyon modülü |
+| Boyutlandırma & kaldıraç motoru §7 | Pozisyon boyutlandırma / sermaye tahsisi | Risk/portföy modülü |
+| Çok-kiracılı mimari + şifreli anahtar + dashboard/Telegram §2,11 | Çok-hesaplı kontrol paneli + izleme/alarm | Kurumsal ops |
+| Haber/takvim kalkanı §6 | Olay-riski kontrolleri | Risk modülü |
+
+**En keskin tek ürün — "Algo-Trading Yönetişim & Risk Katmanı" (RegTech):** yukarıdaki satır 1+2+3+4+9+10.
+Talep regülasyon-zorunlu; RegTech Katar önceliği; en zor kısımlar (%~70) zaten hazır. Varlık sınıfı:
+hisse, sukuk, FX, tokenize RWA (kripto DEĞİL).
+
+**Boşluklar (dürüst):** bugün kripto/Bybit'e bağlı → çok-varlık + kurumsal venue/OMS/**FIX** bağlayıcıları,
+kurumsal kimlik (SSO/roller), SLA, on-prem/özel bulut gerekir. "Retail-kâr botu" DNA'sı → "kurumun stratejisini
+güvenle koşturan araç" DNA'sına geçmeli. Pazar küçük (az lisanslı kurum) → BAE'yi paralel değerlendir.
+
+---
+
 ## 7. Kaynaklar
 
 - [QFCRA — Kripto/stablecoin "Excluded Tokens" duyurusu](https://www.qfcra.com/news/qfc-regulatory-authority-clarifies-that-cryptocurrencies-stablecoins-and-certain-other-virtual-assets-are-excluded-tokens-under-the-new-digital-assets-framework/)
