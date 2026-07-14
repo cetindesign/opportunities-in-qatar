@@ -151,22 +151,28 @@ yükümlülüklerine denk düşen** bir algo-kontrol katmanı inşa etti. Pivot 
 alıp **lisanslı kurumun altına kontrol katmanı** olarak koymak. Sen parayı tutmaz/işlem yapmazsın →
 **regüle değilsin** (QFC B2B FinTech lisansı, hukukçu teyidiyle). Alıcı: algo/otomasyon koşan lisanslı kurum.
 
-**Tablo okuma anahtarı — iki ayrı güven:** *(a) Bileşen* = sizin dokümanınızdan, **Yüksek**. *(b) Katar
-regülasyon kancası* = 3. doğrulama turunda atfı düzeltilmiş; **QFMA taslağı (2025, fazlı→2027)** ve
-**QFCRA CTRL 2020 (yürürlükte, genel)** temelli. Detay + pazar uyarısı tablonun altında.
+**Tablo okuma anahtarı — güven katmanları:** *(a) Bileşen* = dokümanınızdan, **Yüksek**. *(b) Sektör +
+Ürün-geliştirme karşılığı* = capital-markets teknoloji pazar segmentleri; kategori adları + örnek vendor'lar
+14 Tem araştırmasıyla doğrulandı, **Orta-Yüksek** (örnekler illüstratif, tüketici değil). *(c) Katar
+regülasyon kancası* = QFMA taslağı (2025→2027) + QFCRA CTRL 2020 (yürürlükte, genel) temelli. Pazar uyarısı tablonun altında.
 
-| # | Bileşen (sende var — **Yüksek güven**) | Kurumsal karşılığı | Katar regülasyon kancası (doğru atıf) | Kanca güveni |
-|---|---|---|---|---|
-| 1 | SOP v2 — 3 katman doğrulama (fail-closed, gerekçeli ret) §5 | İşlem-öncesi doğrulama / sinyal geçidi | QFMA taslak: algo sistem testi/denetimi + manipülasyon önleme | Orta *(taslak)* |
-| 2 | Risk kalkanları + acil durdurma (fail-closed) §6 | İşlem-öncesi risk limitleri + **kill-switch** | QFCRA CTRL 2020: "etkin sistem-kontrol + risk yönetimi" *(yürürlükte, genel)*; QFMA taslak: gerçek-zamanlı izleme | **Orta-Yüksek** *(genel)* / Orta *(algo-özel, taslak)* |
-| 3 | Karar log'u (`v3_decision_log` + heartbeat) §2,11 | Denetim izi / karar günlüğü + açıklanabilirlik | QFMA taslak: izleme+test+denetim, **karar kriterlerinin ifşası**; QFCRA: bağımsız denetim | Orta |
-| 4 | Backtest + optimizer (dinamik komisyon/kayma) §12 | Devreye-alma öncesi test/simülasyon | QFMA taslak: algo'nun **devreye-alma öncesi test/validasyonu** | Orta *(taslak)* |
-| 5 | Rejim tespiti (ATR/ADX/Hurst + AI) §3 | Piyasa-durumu analitiği | *Doğrudan kanca yok — ürün özelliği* | — |
-| 6 | İcra (maker-chase, limit TP, failsafe) §8 | Akıllı emir icrası / execution algo | QSE Millennium (LSEG) + 2025'te başlayan piyasa yapıcılık; algo/DMA sahnesi **emekleme** | Düşük-Orta *(nascent)* |
-| 7 | Pozisyon yaşam döngüsü + çıkışlar §9 | Otomatik pozisyon & çıkış yönetimi | *Operasyonel; doğrudan kanca yok* | — |
-| 8 | Boyutlandırma & kaldıraç motoru §7 | Pozisyon boyutlandırma / sermaye tahsisi | QFCRA CTRL: risk yönetimi sistemleri *(genel)* | Orta |
-| 9 | Çok-kiracılı + şifreli anahtar + dashboard/uyarı §2,11 | Kontrol paneli + gerçek-zamanlı izleme/alarm | QFMA taslak: gerçek-zamanlı izleme + **"anlamlı insan gözetimi"** | Orta |
-| 10 | Haber/takvim kalkanı §6 | Olay-riski kontrolleri | *Operasyonel risk; dolaylı* | Düşük-Orta |
+| # | Bileşen (sende var — **Yüksek**) | Sektör | **Ürün-geliştirme karşılığı** (kategori · örnek pazar) | Katar regülasyon kancası | Kanca güveni |
+|---|---|---|---|---|---|
+| 1 | SOP v2 — 3 katman doğrulama (fail-closed) §5 | RegTech / TradingTech | **Pre-trade uygunluk & risk geçidi** — OMS'in işlem-öncesi kontrol katmanı (· Charles River, Trading Technologies) | QFMA taslak: algo test/denetim + manipülasyon önleme | Orta *(taslak)* |
+| 2 | Risk kalkanları + acil durdurma §6 | RegTech / RiskTech | **Pre-trade risk gateway / "risk firewall"** — gerçek-zamanlı limit + kill-switch (· EMS risk kontrolleri, market-access gateway) | QFCRA CTRL 2020 *(yürürlükte, genel)*; QFMA: gerçek-zamanlı izleme | **Orta-Yüksek** / Orta |
+| 3 | Karar log'u (`v3_decision_log` + heartbeat) §2,11 | RegTech / SupTech | **Trade surveillance + denetim izi / karar günlüğü** — kayıt & açıklanabilirlik (· NASDAQ SMARTS, SteelEye, OneSumX) | QFMA taslak: izleme+denetim, karar kriterlerinin ifşası | Orta |
+| 4 | Backtest + optimizer §12 | Quant / WealthTech | **Backtesting & simülasyon / quant araştırma platformu** — walk-forward, TCA modelleme (· QuantConnect/LEAN, Bloomberg, Refinitiv) | QFMA taslak: devreye-alma öncesi validasyon | Orta *(taslak)* |
+| 5 | Rejim tespiti (ATR/ADX/Hurst + AI) §3 | AI / Market Analytics | **Piyasa-rejimi analitiği / sinyal servisi** — adaptif model seçimi (· quant analitik feed'leri) | *doğrudan kanca yok — ürün özelliği* | — |
+| 6 | İcra (maker-chase, limit TP) §8 | TradingTech | **Execution Management System (EMS) / execution algo / SOR** (· Trading Technologies, Quod, FlexTrade) | QSE Millennium + 2025 piyasa yapıcılık *(nascent)* | Düşük-Orta |
+| 7 | Pozisyon yaşam döngüsü + çıkışlar §9 | TradingTech | **OMS/OEMS — pozisyon tutma & yaşam döngüsü** (· Charles River, Bloomberg AIM, TS Imagine) | *operasyonel* | — |
+| 8 | Boyutlandırma & kaldıraç motoru §7 | RiskTech / WealthTech | **Portföy inşa / pozisyon boyutlandırma / risk-bütçeleme** (· MSCI, Axioma) | QFCRA CTRL: risk yönetimi *(genel)* | Orta |
+| 9 | Çok-kiracılı + izleme/uyarı §2,11 | SupTech / SaaS | **Gerçek-zamanlı gözetim konsolu / çok-hesap oversight** — insan-döngüde (· surveillance dashboard'ları) | QFMA taslak: gerçek-zamanlı izleme + "anlamlı insan gözetimi" | Orta |
+| 10 | Haber/takvim kalkanı §6 | Market Data / RiskTech | **Olay/haber-riski analitiği & işlem-durdurma** (· RavenPack, Bloomberg news analytics) | *dolaylı* | Düşük-Orta |
+
+**⚔️ Rakip yoğunluğu / kazanılabilir kama (önemli):** Her satır eşit derecede *girilebilir* değil.
+- **6, 7 (EMS/OMS) ve 4 (backtest) ve 8 (risk analitik)** = **dev yerleşiklerin** (Bloomberg, Trading Technologies, Charles River, MSCI, QuantConnect) hâkim olduğu doygun pazarlar. Solo/erken kurucu için **kötü bahis** — bunlarla cepheden yarışılmaz.
+- **1, 2, 3, 9 (RegTech/SupTech kümesi)** = hem **Katar-öncelikli** (RegTech ulusal tema) hem **gelen QFMA regülasyonuyla hizalı** hem yerel/İslami/tokenizasyon nüansına açık → **defandedilebilir kama burası.** ENDtrader'ın gerçek farkı zaten bu katman (fail-closed doğrulama + karar loglama), icra değil.
+- **Sonuç:** Ürünü "EMS/backtest" olarak konumlamak seni Bloomberg'in karşısına koyar; **"gelen regülasyona hazır algo-yönetişim & gözetim katmanı" (satır 1+2+3+9)** olarak konumlamak seni boş bir nişe koyar. [Güven: Orta-Yüksek — segment yoğunluğu iyi bilinen; Katar niş boşluğu Orta]
 
 **En keskin tek ürün — "Algo-Trading Yönetişim & Risk Katmanı" (RegTech):** yukarıdaki satır 1+2+3+4+9+10.
 RegTech Katar önceliği; en zor kısımlar (%~70) zaten hazır. Varlık sınıfı: hisse, sukuk, FX, tokenize RWA
@@ -224,6 +230,14 @@ güvenle koşturan araç" DNA'sına geçmeli. Pazar küçük (az lisanslı kurum
 - [QFCRA — Rules for Authorised Firms](https://www.qfcra.com/rules-for-authorised-firms/)
 - [The Peninsula — QFC'de 2024'te 800+ yeni firma, toplam 2.489](https://thepeninsulaqatar.com/article/29/01/2025/over-800-new-firms-registered-with-qatar-financial-center-in-2024-recording-156-growth)
 - [QSE piyasa yapıcılık / likidite sağlayıcı (2025 başlangıcı) bağlamı](https://algotradinglib.com/en/pedia/q/qatar_stock_exchange_(qse).html)
+
+**Ürün kategorileri / pazar segmentleri (14 Tem araştırması)**
+- [Quod Financial — OMS vs EMS farkı (pre-trade check, execution)](https://www.quodfinancial.com/oms-vs-ems-difference/)
+- [TS Imagine — OMS vs EMS vs OEMS](https://tsimagine.com/insights/oms-vs-ems-vs-oems-trading-systems/)
+- [SteelEye — RegTech / compliance vendor karşılaştırması (trade surveillance)](https://www.steel-eye.com/compliance-technology-vendor-comparison)
+- [A-Team — RegTech kategorileri (surveillance, audit trail, best execution)](https://a-teaminsight.com/awards/regtech-insight-awards-usa/?section=categories)
+- [QuantConnect — kurumsal backtesting (LEAN motoru)](https://www.quantconnect.com/)
+- [IntelMarketResearch — backtesting/simülasyon pazarı ve yerleşikler (Bloomberg/Refinitiv)](https://www.intelmarketresearch.com/backtestingsimulation-platform-market-44666)
 - İlgili: bu depodaki `Startup-Qatar-Fintech-Giris-Raporu.md` (teşvik kapıları) ve `Katar-Sigorta-Firsat-Raporu.md` ("Katar'ı sonraya bırak" örüntüsü).
 
 ---
