@@ -154,7 +154,7 @@ alıp **lisanslı kurumun altına kontrol katmanı** olarak koymak. Sen parayı 
 | Sende var (dokümandan) | Kurumsal karşılığı | Alıcı / regülasyon bağı |
 |---|---|---|
 | SOP v2 — 3 katman doğrulama (K1/K2/K3, fail-closed, gerekçeli ret) §5 | İşlem-öncesi doğrulama / sinyal geçidi | Algo-yönetişim |
-| Risk kalkanları (günlük zarar, ardışık stop, portföy ısısı, olay kilidi, max pozisyon) §6 | **İşlem-öncesi risk limitleri + kill-switch** | ⭐ QFCRA algo kuralları zorunlu tutar |
+| Risk kalkanları (günlük zarar, ardışık stop, portföy ısısı, olay kilidi, max pozisyon) §6 | **İşlem-öncesi risk limitleri + kill-switch** | Algo-yönetişim gereği (bkz. ⚠️ regülasyon notu) |
 | Karar log'u (`v3_decision_log` + heartbeat) §2,11 | Denetim izi / karar günlüğü | RegTech; regülatöre kanıt |
 | Backtest + optimizer (dinamik komisyon/kayma) §12 | Devreye-alma öncesi strateji testi | Regülatör algo testini ister |
 | Rejim tespiti (ATR/ADX/Hurst + AI) §3 | Piyasa-durumu analitiği | Quant/araştırma modülü |
@@ -165,8 +165,24 @@ alıp **lisanslı kurumun altına kontrol katmanı** olarak koymak. Sen parayı 
 | Haber/takvim kalkanı §6 | Olay-riski kontrolleri | Risk modülü |
 
 **En keskin tek ürün — "Algo-Trading Yönetişim & Risk Katmanı" (RegTech):** yukarıdaki satır 1+2+3+4+9+10.
-Talep regülasyon-zorunlu; RegTech Katar önceliği; en zor kısımlar (%~70) zaten hazır. Varlık sınıfı:
-hisse, sukuk, FX, tokenize RWA (kripto DEĞİL).
+RegTech Katar önceliği; en zor kısımlar (%~70) zaten hazır. Varlık sınıfı: hisse, sukuk, FX, tokenize RWA
+(kripto DEĞİL).
+
+> ### ⚠️ Regülasyon notu — "zorunlu talep" iddiası düzeltmesi (14 Tem, 2. doğrulama turu)
+> İlk taslakta "QFCRA algo kuralları bu kontrolleri **zorunlu tutar**" (⭐) demiştim. **Bu doğrulanmadı** ve
+> düzeltiliyor:
+> - Detaylı **işlem-öncesi risk kontrolü / kill-switch zorunlulukları ABD/AB kaynaklıdır** (FINRA, SEC,
+>   CFTC Reg AT, MiFID II RTS 6) — **Katar mevzuatı değil.** MiFID II'den analojiyle Katar hukukuymuş gibi
+>   sunmak hataydı. [Güven: Yüksek — ama başka yargı çevresi]
+> - **Katar'a özgü:** QFCRA'nın yürürlükte, MiFID II-tarzı detaylı bir algo kural kitabı **bulunamadı.**
+>   Bunun yerine **QFMA** (yerel sermaye piyasası regülatörü; QFCRA'dan farklı) **Mayıs 2025 taslak AI
+>   düzenlemesi** — algo işlemde gerçek-zamanlı izleme + insan gözetimi — sinyali var. **Taslak + ikincil
+>   kaynak. [Güven: Düşük–Orta, teyit edilmeli]**
+> - **Sonuç:** İddianın *yönü* doğru (Katar bu regülasyona gidiyor → **zamanlama/erken-hareket avantajı**),
+>   ama "**bugün sert yasal zorunluluk → kesin satın alma**" çerçevesi **kanıtlanmadı.** Pitch bunu
+>   "gelen regülasyona hazırlık" olarak kurmalı, "mevcut zorunluluk" olarak değil.
+> - **Pazar büyüklüğü uyarısı:** Katar'da fiilen algo-trading yapan lisanslı kurum sayısı muhtemelen az;
+>   "regülasyon-zorunlu talep" pratikte ince olabilir. QFMA/QFCRA + QSE nezdinde saha doğrulaması şart.
 
 **Boşluklar (dürüst):** bugün kripto/Bybit'e bağlı → çok-varlık + kurumsal venue/OMS/**FIX** bağlayıcıları,
 kurumsal kimlik (SSO/roller), SLA, on-prem/özel bulut gerekir. "Retail-kâr botu" DNA'sı → "kurumun stratejisini
@@ -187,6 +203,9 @@ güvenle koşturan araç" DNA'sına geçmeli. Pazar küçük (az lisanslı kurum
 - [QFCRA Rulebook — Regulated Activities Part 1](https://qfcra-en.thomsonreuters.com/rulebook/part-1-activities-which-subject-provided-regulations-shall-be-regulated-activities)
 - [Charles Russell Speechlys — Qatar market conduct / algoritmik işlem](https://www.charlesrussellspeechlys.com/en/insights/expert-insights/corporate/2025/defining-market-boundaries-qatar-codifies-financial-market-conduct/)
 - [QFC — What We License (B2B FinTech)](https://www.qfc.qa/en/registering-a-company/what-we-license)
+- [FINRA — Algorithmic Trading (ABD; pre-trade kontrol/kill-switch bağlamı — Katar değil, analoji)](https://www.finra.org/rules-guidance/key-topics/algorithmic-trading)
+- [Kroll — Algorithmic Trading under MiFID II (RTS 6; AB — analoji)](https://www.kroll.com/en/publications/financial-compliance-regulation/algorithmic-trading-under-mifid-ii)
+- [QFMA Mayıs 2025 taslak AI/algo düzenlemesi bağlamı (ikincil kaynak — teyit edilmeli)](https://orbit.reconn.io/iso-42001-qatar/)
 - İlgili: bu depodaki `Startup-Qatar-Fintech-Giris-Raporu.md` (teşvik kapıları) ve `Katar-Sigorta-Firsat-Raporu.md` ("Katar'ı sonraya bırak" örüntüsü).
 
 ---
