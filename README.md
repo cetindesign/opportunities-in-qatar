@@ -17,7 +17,11 @@ taşıyıcı-olmayan kurucu. Coğrafya: Katar (birincil), GCC (ikincil).
   QFC), seçim kriterleri ve solo/yabancı kurucu için enabler ürün yönleri.
 - **[ENDtrader-Katar-Giris-Analizi.md](./ENDtrader-Katar-Giris-Analizi.md)** — ENDtrader V4 (Bybit kripto
   vadeli işlem botu) ürününün Katar teşviklerine uygunluk analizi: kripto regülasyon duvarı (QCB yasağı,
-  QFC "Excluded Tokens", QFCRA regüle faaliyet, Şeriat), yeniden konumlandırma yolları ve öneri.
+  QFC "Excluded Tokens", QFCRA regüle faaliyet, Şeriat), yeniden konumlandırma yolları, bileşen→sektör→ürün
+  haritası (güven-etiketli) ve öneri.
+- **[ENDtrader-Konsept-Urunler.md](./ENDtrader-Konsept-Urunler.md)** — motorun 10 bileşeninden türetilmiş
+  10 konsept ürün (kriptodan arındırılmış, kurumsal, Katar-uyumlu); bahis-gücü sıralaması ve amiral gemisi
+  "Algo-Governance & Surveillance Suite" önerisi.
 
 ## Yöntem
 1 kapsam + 5 paralel araştırma + 2 bağımsız fact-checker (çürütme odaklı) + 1 kırmızı-takım ajanı; ardından
