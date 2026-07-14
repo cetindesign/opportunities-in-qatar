@@ -17,6 +17,12 @@ birebir metni açılamadı; aşağıdaki her rakam, **≥2–3 bağımsız arama
 (startupqatar.qa, qdb.qa, fintech.qa, qcb.gov.qa) birincil kaynaktan teyit edilmelidir.** Program dalgaları
 (wave), miktarlar ve son başvuru tarihleri sık değişir.
 
+**Doğrulama turu (14 Tem):** Kritik iddialar tekrar kontrol edildi. **Güçlendi:** START ≤1,1M$ / GROW ≤5,5M$
+(Invest Qatar tanıtımı dahil çok kaynak); **"iki kapı" regülasyon modeli** (QFC B2B FinTech lisansı + QFCA/QFCRA
+ayrımı hukuki kaynakla teyit — bkz. 4.1). **Düzeltildi:** fintech şeridi "C44" değil, QFC B2B FinTech lisansıdır.
+**Zayıf kaldı:** QFTH miktarları, güncel dalga/tarih, ve **Eksen B destek-türü listesi (kısmen çıkarım)**.
+Birincil sayfalar (startupqatar.qa/qdb.qa/qcb.gov.qa) **bu turda da 403 ile açılamadı.**
+
 ---
 
 ## 1. Yönetici Özeti
@@ -72,7 +78,9 @@ Startup Wizard iki eksende filtreler. Ürününüzü bu matrise oturtmanız gere
 | 14 | Robotics & Drones | |
 
 ### Eksen B — Destek Türleri (Wizard'ın "type of support" adımı)
-[Güven: Orta–Yüksek — arama ekstreleri tutarlı; wizard'ın tam etiketleri primary'de teyit edilmeli]
+[Güven: **Düşük–Orta / kısmen çıkarım** — Arama, wizard'da bir "type of support" adımı olduğunu doğruladı
+ama **9 seçeneğin tam etiketlerini vermedi.** Aşağıdaki liste, resmî teşvik listesinden **türetildi**; birebir
+wizard menüsü değildir. **startupqatar.qa/en#startup-wizard açılıp teyit edilmeli.**]
 
 1. **Funding / Investment** — öz sermaye yatırımı (START/GROW; bkz. Bölüm 3)
 2. **Incubation & Acceleration** — QFTH, DIC (Digital Incubation Center), QSTP vb.
@@ -119,9 +127,15 @@ uluslararası işi düzenler. Kritik ayrım:
   QCB lisansı veya QFC lisansı + **QCB Regulatory Sandbox** (veya hızlı şerit **Express Sandbox**) gerekir.
   Dijital bankalar için ayrı çerçeve (QCB, Ara 2024) fazlı lisanslama getirir. Solo/düşük-sermaye için ağır.
 - **Ürününüz lisanslı kurumlara *satılan* yazılım/altyapı ise (kendiniz finansal faaliyet yapmıyorsanız) →
-  REGÜLE DEĞİL.** QFC'nin teknoloji/danışmanlık şeridiyle **%100 yabancı sahiplik + %100 kâr transferi**
-  ile kurulur, finansal lisans gerekmez. **Solo kurucu için önerilen kapı.**
-  [Güven: Yüksek (tavanlı) — %100 sahiplik/QFC; Orta — perimetre sınırının ürün-özel yorumu hukukçuyla netleşmeli]
+  REGÜLE DEĞİL.** QFC'nin **B2B FinTech lisans kategorisiyle** (siber güvenlik, bulut, API, gerçek-zamanlı
+  işlem platformları, portföy/bütçe araçları vb.) **%100 yabancı sahiplik + %100 kâr transferi** ile
+  kurulur; **QFCA lisansı** yeter, **QFCRA regülatör yetkisi gerekmez**. **Solo kurucu için önerilen kapı.**
+  [Güven: Yüksek (tavanlı) — 14 Tem doğrulama turunda hukuki kaynak QFCA/QFCRA ayrımını ve QFC B2B FinTech
+  lisansını teyit etti; Orta — perimetre sınırının ürün-özel yorumu QFC/QFCRA hukukçusuyla netleşmeli]
+
+  > **Düzeltme (14 Tem):** Bu şeridi önceki taslakta sigorta raporundaki **"C44"** koduna benzetmiştim.
+  > C44 sigorta-TPA'ya özeldir; fintech'in doğru aracı yukarıdaki **QFC B2B FinTech lisansıdır** — mantık
+  > (regüle-olmayan, %100 yabancı sahiplik) aynı, kod farklı.
 
 ### 4.2 FinTech'e özel programlar (Startup Qatar'ın *üstüne* binen dikey altyapı)
 
@@ -222,6 +236,9 @@ Hepsi "lisanslı kuruma satılan yazılım" mantığında; kurucu perimetre dı�
 - [Chambers — Qatar'ın devlet-liderliğinde fintech modeli](https://chambers.com/articles/engineering-innovation-qatar-s-state-led-model-for-fintech)
 - [Bloomberg (sponsored) — QFC fintech'ler için koşullar / %100 yabancı sahiplik](https://sponsored.bloomberg.com/article/qatar-financial-centre-creates-favorable-conditions-for-fintechs)
 - [Cointelegraph — QFC dijital varlık çerçevesi](https://cointelegraph.com/news/qatar-financial-centre-digital-assets-regulation)
+- [QFC — What We License (B2B FinTech lisans kategorisi)](https://www.qfc.qa/en/registering-a-company/what-we-license)
+- [QFCRA Rulebook — Madde 11: Licensing of operations (regüle/regüle-olmayan ayrımı)](https://qfcra-en.thomsonreuters.com/rulebook/article-11-licensing-operations)
+- [Invest Qatar (Facebook) — "Startup Qatar Investment Program: Up to $1.1M" tanıtımı](https://www.facebook.com/InvestQatar/videos/startup-qatar-investment-program/1405961207656035/)
 - [Fintechnews ME — strateji 2027'ye kadar lisanslı fintech'i 3'e katlıyor](https://fintechnews.ae/15240/qatar/qatar-national-fintech-strategy-seeks-to-triple-number-of-licensed-fintechs-by-2027/)
 
 **İkamet / vize**
