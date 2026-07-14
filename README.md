@@ -20,8 +20,11 @@ taşıyıcı-olmayan kurucu. Coğrafya: Katar (birincil), GCC (ikincil).
   QFC "Excluded Tokens", QFCRA regüle faaliyet, Şeriat), yeniden konumlandırma yolları, bileşen→sektör→ürün
   haritası (güven-etiketli) ve öneri.
 - **[ENDtrader-Konsept-Urunler.md](./ENDtrader-Konsept-Urunler.md)** — motorun 10 bileşeninden türetilmiş
-  10 konsept ürün (kriptodan arındırılmış, kurumsal, Katar-uyumlu); bahis-gücü sıralaması ve amiral gemisi
-  "Algo-Governance & Surveillance Suite" önerisi.
+  10 konsept ürün (kriptodan arındırılmış, kurumsal, Katar-uyumlu); her ürün için "ne işe yarıyor" + "alıcı
+  kitlesi" detayı, bahis-gücü sıralaması ve amiral gemisi önerisi.
+- **[Amiral-Gemisi-Urun-Pitch.md](./Amiral-Gemisi-Urun-Pitch.md)** — bütüncül ürün pitch'i: 4 modülü tek
+  üründe birleştiren "Muraqib — Algo-Governance & Surveillance Suite"; problem/zamanlama, ürün, alıcı, Katar
+  girişi, iş modeli, MVP yol haritası, farklılaşma ve dürüst riskler tek belgede.
 
 ## Yöntem
 1 kapsam + 5 paralel araştırma + 2 bağımsız fact-checker (çürütme odaklı) + 1 kırmızı-takım ajanı; ardından
