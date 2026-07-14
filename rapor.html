@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Katar / GCC Sigorta Fırsat Raporu</title>
+<style>
+  :root{
+    --ground:#FAF7F6; --surface:#FFFFFF; --surface-2:#F4EEEE;
+    --ink:#231A1D; --muted:#6E5F63; --line:#E7DEDF; --line-strong:#D6C9CB;
+    --accent:#8A1538; --accent-soft:#F3E3E7; --accent-ink:#8A1538;
+    --hi:#2F7D57; --hi-bg:#E5F1EA;
+    --md:#A5711A; --md-bg:#F6ECD9;
+    --lo:#BE5A2A; --lo-bg:#F8E7DC;
+    --nn:#6C6A72; --nn-bg:#ECEAEE;
+    --warn:#9A3324; --warn-bg:#FBEEE9; --warn-line:#E8C6BB;
+    --shadow:0 1px 2px rgba(35,26,29,.04),0 8px 24px -12px rgba(35,26,29,.10);
+    --serif:"Iowan Old Style","Palatino Linotype","Book Antiqua",Palatino,Georgia,"Times New Roman",serif;
+    --sans:"Segoe UI",-apple-system,BlinkMacSystemFont,Roboto,"Helvetica Neue",Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono","Cascadia Code","Roboto Mono",Consolas,"Liberation Mono",monospace;
+    --measure:74ch;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --ground:#161011; --surface:#1E1719; --surface-2:#241C1F;
+      --ink:#F1E8EA; --muted:#AD9BA0; --line:#2E2427; --line-strong:#3C2E32;
+      --accent:#E07A93; --accent-soft:#33202700; --accent-ink:#EE93A8;
+      --accent-soft:#2A1A20;
+      --hi:#63C393; --hi-bg:#16271F;
+      --md:#E0B24B; --md-bg:#2A2416;
+      --lo:#EA9463; --lo-bg:#2C1E16;
+      --nn:#A29FA9; --nn-bg:#232025;
+      --warn:#F0997F; --warn-bg:#2A1712; --warn-line:#4A2A22;
+      --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px -14px rgba(0,0,0,.6);
+    }
+  }
+  :root[data-theme="light"]{
+    --ground:#FAF7F6; --surface:#FFFFFF; --surface-2:#F4EEEE;
+    --ink:#231A1D; --muted:#6E5F63; --line:#E7DEDF; --line-strong:#D6C9CB;
+    --accent:#8A1538; --accent-soft:#F3E3E7; --accent-ink:#8A1538;
+    --hi:#2F7D57; --hi-bg:#E5F1EA; --md:#A5711A; --md-bg:#F6ECD9;
+    --lo:#BE5A2A; --lo-bg:#F8E7DC; --nn:#6C6A72; --nn-bg:#ECEAEE;
+    --warn:#9A3324; --warn-bg:#FBEEE9; --warn-line:#E8C6BB;
+  }
+  :root[data-theme="dark"]{
+    --ground:#161011; --surface:#1E1719; --surface-2:#241C1F;
+    --ink:#F1E8EA; --muted:#AD9BA0; --line:#2E2427; --line-strong:#3C2E32;
+    --accent:#E07A93; --accent-soft:#2A1A20; --accent-ink:#EE93A8;
+    --hi:#63C393; --hi-bg:#16271F; --md:#E0B24B; --md-bg:#2A2416;
+    --lo:#EA9463; --lo-bg:#2C1E16; --nn:#A29FA9; --nn-bg:#232025;
+    --warn:#F0997F; --warn-bg:#2A1712; --warn-line:#4A2A22;
+  }
+
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:var(--ground); color:var(--ink);
+    font-family:var(--sans); font-size:17px; line-height:1.65;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  }
+  .wrap{max-width:920px; margin:0 auto; padding:0 24px 96px}
+  .col{max-width:var(--measure)}
+
+  /* ---------- Masthead ---------- */
+  .masthead{padding:56px 0 0}
+  .eyebrow{
+    font-family:var(--mono); font-size:12.5px; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--accent-ink); font-weight:600;
+  }
+  h1.title{
+    font-family:var(--serif); font-weight:600; line-height:1.06;
+    font-size:clamp(2.1rem,5.2vw,3.4rem); margin:.35em 0 .2em;
+    text-wrap:balance; letter-spacing:-.01em;
+  }
+  .subtitle{font-size:1.12rem; color:var(--muted); max-width:60ch; margin:.2em 0 0}
+  .serration{display:block; width:100%; height:13px; margin:26px 0 0; color:var(--accent)}
+  .serration svg{display:block; width:100%; height:100%}
+  .meta{
+    display:flex; flex-wrap:wrap; gap:8px 26px; margin:22px 0 0;
+    font-family:var(--mono); font-size:12.5px; color:var(--muted);
+    padding-top:18px; border-top:1px solid var(--line);
+  }
+  .meta b{color:var(--ink); font-weight:600}
+
+  /* ---------- Callouts ---------- */
+  .callout{
+    margin:34px 0; padding:20px 22px; border-radius:12px;
+    background:var(--warn-bg); border:1px solid var(--warn-line);
+    box-shadow:var(--shadow);
+  }
+  .callout h3{
+    margin:0 0 .4em; font-family:var(--sans); font-size:.82rem; font-weight:700;
+    letter-spacing:.08em; text-transform:uppercase; color:var(--warn);
+    display:flex; align-items:center; gap:9px;
+  }
+  .callout h3 .dot{width:9px;height:9px;border-radius:50%;background:var(--warn);flex:none}
+  .callout p{margin:.5em 0; font-size:.97rem}
+  .callout blockquote{
+    margin:.7em 0; padding:.5em 0 .5em 16px; border-left:3px solid var(--warn);
+    color:var(--ink); font-style:normal;
+  }
+
+  /* ---------- Legend ---------- */
+  .legend{
+    display:flex; flex-wrap:wrap; gap:10px; margin:28px 0 8px;
+    padding:16px; background:var(--surface); border:1px solid var(--line);
+    border-radius:12px;
+  }
+  .legend .lbl{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);width:100%;margin-bottom:2px}
+
+  /* ---------- Chips ---------- */
+  .chip{
+    display:inline-flex; align-items:center; gap:6px; white-space:nowrap;
+    font-family:var(--mono); font-size:11.5px; font-weight:600; letter-spacing:.02em;
+    padding:3px 9px; border-radius:999px; border:1px solid transparent; line-height:1.4;
+  }
+  .chip::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor;flex:none;opacity:.85}
+  .chip--hi{color:var(--hi);background:var(--hi-bg);border-color:color-mix(in srgb,var(--hi) 30%,transparent)}
+  .chip--md{color:var(--md);background:var(--md-bg);border-color:color-mix(in srgb,var(--md) 30%,transparent)}
+  .chip--lo{color:var(--lo);background:var(--lo-bg);border-color:color-mix(in srgb,var(--lo) 30%,transparent)}
+  .chip--nn{color:var(--nn);background:var(--nn-bg);border-color:color-mix(in srgb,var(--nn) 34%,transparent)}
+  .tier{font-family:var(--mono);font-size:11px;font-weight:600;padding:2px 7px;border-radius:6px;background:var(--surface-2);color:var(--muted);border:1px solid var(--line)}
+  .tier--1{color:var(--accent-ink);background:var(--accent-soft);border-color:color-mix(in srgb,var(--accent) 26%,transparent)}
+
+  /* ---------- TOC ---------- */
+  nav.toc{
+    margin:36px 0; padding:22px 24px; background:var(--surface); border:1px solid var(--line);
+    border-radius:14px; box-shadow:var(--shadow);
+  }
+  nav.toc .lbl{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+  nav.toc ol{margin:0;padding:0;list-style:none;counter-reset:toc;display:grid;grid-template-columns:1fr;gap:2px}
+  @media(min-width:620px){nav.toc ol{grid-template-columns:1fr 1fr;gap:2px 32px}}
+  nav.toc li{counter-increment:toc}
+  nav.toc a{
+    display:flex; gap:12px; align-items:baseline; padding:7px 6px; border-radius:8px;
+    color:var(--ink); text-decoration:none; border-bottom:1px solid var(--line);
+  }
+  nav.toc a:hover{background:var(--surface-2)}
+  nav.toc a::before{content:counter(toc,decimal-leading-zero);font-family:var(--mono);font-size:12px;color:var(--accent-ink);font-weight:600;flex:none}
+
+  /* ---------- Sections ---------- */
+  section{margin:56px 0 0; scroll-margin-top:20px}
+  .sec-head{display:flex;gap:14px;align-items:baseline;margin-bottom:6px;border-top:2px solid var(--accent);padding-top:16px}
+  .sec-num{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--accent-ink);flex:none}
+  h2{font-family:var(--serif);font-weight:600;font-size:clamp(1.5rem,3.4vw,2rem);margin:0;line-height:1.15;text-wrap:balance;letter-spacing:-.01em}
+  .sec-sub{color:var(--muted);font-style:italic;font-family:var(--serif);margin:.1em 0 0}
+  h3.sub{font-family:var(--sans);font-weight:700;font-size:1.06rem;margin:32px 0 4px;color:var(--ink)}
+  h4.sub{font-family:var(--sans);font-weight:700;font-size:.92rem;margin:22px 0 4px;color:var(--accent-ink);letter-spacing:.01em}
+  p{margin:.7em 0}
+  .col p, section > p{max-width:var(--measure)}
+  strong{font-weight:700}
+  a{color:var(--accent-ink)}
+  ul{margin:.6em 0;padding-left:1.15em}
+  li{margin:.34em 0;max-width:var(--measure)}
+  li::marker{color:var(--accent)}
+  .lede{font-size:1.16rem;line-height:1.6;color:var(--ink)}
+  .lede strong{color:var(--accent-ink)}
+
+  /* ---------- Tables ---------- */
+  .table-wrap{overflow-x:auto;margin:20px 0;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);-webkit-overflow-scrolling:touch}
+  table{border-collapse:collapse;width:100%;min-width:560px;font-size:14.5px;background:var(--surface)}
+  thead th{
+    background:var(--surface-2);text-align:left;font-family:var(--mono);font-size:11.5px;
+    letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600;
+    padding:12px 14px;border-bottom:1px solid var(--line-strong);white-space:nowrap;
+  }
+  tbody td{padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+  tbody tr:last-child td{border-bottom:none}
+  tbody tr:hover{background:var(--surface-2)}
+  td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--mono);font-size:13px}
+  td .q{font-family:var(--serif);color:var(--ink)}
+  caption{caption-side:bottom;text-align:left;color:var(--muted);font-size:12.5px;padding:10px 4px 0;font-style:italic}
+  .rank{font-family:var(--mono);font-weight:700;color:var(--accent-ink)}
+
+  /* ---------- Fiche / source styles ---------- */
+  .src-group{margin:14px 0}
+  .src-group .gh{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-ink);font-weight:600;margin:18px 0 8px;display:flex;gap:10px;align-items:center}
+  .src-group .gh::after{content:"";height:1px;background:var(--line);flex:1}
+  ol.src{margin:0;padding-left:1.6em;font-size:14.5px;color:var(--muted)}
+  ol.src li{margin:.3em 0}
+  ol.src li b{color:var(--ink)}
+
+  .keyline{border-left:3px solid var(--accent);padding:2px 0 2px 16px;margin:16px 0;background:linear-gradient(90deg,var(--accent-soft),transparent 70%);border-radius:0 8px 8px 0}
+
+  footer{margin:64px 0 0;padding:26px 0 0;border-top:1px solid var(--line);color:var(--muted);font-size:13.5px;font-style:italic;max-width:var(--measure)}
+
+  a:focus-visible,nav.toc a:focus-visible{outline:2.5px solid var(--accent);outline-offset:2px;border-radius:4px}
+  @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+  html{scroll-behavior:smooth}
+
+  @media print{
+    body{background:#fff;color:#000;font-size:11pt}
+    .table-wrap,nav.toc,.callout,.legend{box-shadow:none}
+    section{margin-top:24px}
+    a{color:#000;text-decoration:none}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="eyebrow">Doğrulama-Öncelikli Fırsat Araştırması</div>
+    <h1 class="title">Katar / GCC Sigorta Sektörü: Taşıyıcı-Lisansı Gerektirmeyen MVP Fırsatları</h1>
+    <p class="subtitle">Solo, yabancı, düşük-sermayeli, taşıyıcı-olmayan bir kurucu için; pazar kanıtı, rakipler, MVP kapsamı, regülasyon yükü ve program uygunluğu ile güven-etiketli önceliklendirme.</p>
+    <div class="serration" aria-hidden="true">
+      <svg viewBox="0 0 360 20" preserveAspectRatio="none"><path fill="currentColor" d="M0,8 L20,20 L40,8 L60,20 L80,8 L100,20 L120,8 L140,20 L160,8 L180,20 L200,8 L220,20 L240,8 L260,20 L280,8 L300,20 L320,8 L340,20 L360,8 L360,0 L0,0 Z"/></svg>
+    </div>
+    <div class="meta">
+      <span><b>Coğrafya</b> · Katar (birincil), GCC (ikincil)</span>
+      <span><b>Tarih</b> · 14 Temmuz 2026</span>
+      <span><b>Yöntem</b> · 5 araştırma + 2 fact-check + 1 kırmızı-takım</span>
+    </div>
+  </header>
+
+  <!-- EVIDENCE CEILING -->
+  <div class="callout" role="note">
+    <h3><span class="dot"></span>Önce Okuyun — Bu Raporun Kanıt Tavanı</h3>
+    <p>Bu ortamın <strong>egress (çıkış) güvenlik politikası</strong>, tüm dış web sitelerine doğrudan sayfa erişimini engelledi (QCB, QFC, Invest Qatar, Statista, hukuk firmaları — hepsi <span class="tier">403</span> ile reddedildi). Yalnızca arama motoru çalıştı.</p>
+    <blockquote>Metodolojinin 2. Kuralı: <em>“Arama özetleri kanıt değildir; asıl kaynak açılmadan hiçbir rakam gerçek sayılmaz.”</em> Bu ortamda <strong>asıl kaynaklar açılamadı.</strong></blockquote>
+    <p>Dolayısıyla hiçbir iddia saf <strong>Yüksek</strong> güven taşıyamaz. Ulaşılabilen en yüksek seviye <span class="chip chip--hi">Yüksek (tavanlı)</span> — çok-kaynaklı arama triangülasyonu, primary belge açılmadı. Nihai karar öncesi kilit rakamlar bloklanmamış bir erişimle birincil kaynaktan teyit edilmelidir.</p>
+  </div>
+
+  <!-- LEGEND -->
+  <div class="legend" aria-label="Güven etiketleri">
+    <span class="lbl">Güven etiketleri</span>
+    <span class="chip chip--hi">Yüksek (tavanlı)</span>
+    <span class="chip chip--md">Orta</span>
+    <span class="chip chip--lo">Düşük</span>
+    <span class="chip chip--nn">Doğrulanamadı</span>
+    <span class="lbl" style="margin-top:8px">Kaynak kademeleri</span>
+    <span class="tier tier--1">T1 · Regülatör/Resmî</span>
+    <span class="tier">T2 · Yüksek-güven bağımsız</span>
+    <span class="tier">T3 · Pazar-araştırma satıcısı</span>
+    <span class="tier">T4 · Düşük-otorite</span>
+  </div>
+
+  <!-- TOC -->
+  <nav class="toc" aria-label="İçindekiler">
+    <div class="lbl">İçindekiler</div>
+    <ol>
+      <li><a href="#s1">Yönetici Özeti</a></li>
+      <li><a href="#s2">Yöntem &amp; Kapsam</a></li>
+      <li><a href="#s3">Bulgular</a></li>
+      <li><a href="#s4">Fırsat Karşılaştırması</a></li>
+      <li><a href="#s5">Öneri</a></li>
+      <li><a href="#s6">Karşı Argümanlar / Riskler</a></li>
+      <li><a href="#s7">Doğrulanamayan İddialar</a></li>
+      <li><a href="#s8">Kaynaklar</a></li>
+      <li><a href="#s9">Varsayımlar &amp; Sınırlar</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section id="s1">
+    <div class="sec-head"><span class="sec-num">01</span><h2>Yönetici Özeti</h2></div>
+    <p class="lede">Yabancı, solo, düşük-sermayeli, taşıyıcı-olmayan bir kurucu için Katar sigorta sektöründe <strong>hukuken düşük-yük bir giriş kapısı gerçekten vardır</strong> — ama bu bir <em>yapılandırma</em> içgörüsüdür, bir <em>iş</em> değildir.</p>
+
+    <div class="keyline">
+      QFC’nin “düzenlenmeyen” (non-regulated) <strong>C44 Third Party Administrator / teknoloji</strong> şeridi: %100 yabancı sahiplik, sigorta prudential sermaye şartı yok, başvuru ücreti US$500 <em>(Şub 2025 indirimi)</em>. <span class="chip chip--hi">Yüksek (tavanlı)</span> Misyonun “taşıyıcı lisansı gerektirmeyen MVP” koşulunu karşılayan en temiz yol budur.
+    </div>
+
+    <p>Doğrulama ve kırmızı-takım aşamaları, “Katar’da boş bir sigorta fırsat alanı” tezini büyük ölçüde <strong>çürüttü</strong>:</p>
+    <ul>
+      <li><strong>Alıcı havuzu çok küçük.</strong> ~12–30 sigortacı ve ~22 lisanslı broker (≈20’si tek-sahipli mikro-dükkan) <span class="chip chip--md">Orta</span>; penetrasyon ~%0,8 ile GCC’nin en düşüğü <span class="chip chip--hi">Yüksek (tavanlı)</span> (kesin ondalık <span class="chip chip--md">Orta</span>).</li>
+      <li><strong>Beyaz alan zaten dolu.</strong> Pazara hâkim QIC (~%70 conventional pay, uluslararası kitap dahil) <em>aynı zamanda</em> B2B çekirdek yazılımın satıcısıdır (<strong>Anoud Technologies</strong>, iştiraki) <em>ve</em> ekosistemin hızlandırıcısını (QFTH) besleyerek tam da hedef nişleri fonlar. <span class="chip chip--md">Orta–Yüksek</span></li>
+      <li><strong>Cazip nişler ya <em>regüle</em> ya <em>devletleştirilmiş</em>.</strong> Sigorta aracılığına (QFCRA IMEB, ≥US$250k) bir ürün-kararı uzaklıktadır; zorunlu sağlık claims değeri MoPH’un ulusal <strong>QHIE-Hub</strong> geçidine ve yerleşik TPA’lara akar. <span class="chip chip--lo">Düşük–Orta</span></li>
+      <li><strong>Talep tetikleyicileri gerçek ve güçlü</strong> (zorunlu ziyaretçi sağlık sigortası Şub 2023’ten yürürlükte; işveren fazı 2025–26’da operasyonel) <span class="chip chip--hi">Yüksek (tavanlı)</span> — ama değer büyük ölçüde yerleşiklerce ve devletçe yakalanıyor.</li>
+    </ul>
+
+    <h3 class="sub">Öneri (özet)</h3>
+    <p><strong>Bir venture’ı Katar-öncelikli sigorta B2B’sine bağlamayın.</strong> Sigorta-teknolojisi yapılacaksa, alıcı yoğunluğu 10–50× daha yüksek olan <strong>UAE/KSA için inşa edin, Katar’ı sonraki genişleme adımı yapın.</strong> Katar sert bir kısıtsa (ör. QFTH/Startup Qatar erişimi için), en az-kötü hamle, mediation ve QHIE-Hub perimetrelerinden titizlikle uzak duran <strong>dar, gerçekten-düzenlenmeyen bir B2B araç</strong>tır; regülatif karakterizasyon işin ölüm-kalım riskidir. Agregatör/PCW yolu yabancı-solo için önerilmez.</p>
+  </section>
+
+  <!-- 2 -->
+  <section id="s2">
+    <div class="sec-head"><span class="sec-num">02</span><h2>Yöntem &amp; Kapsam</h2></div>
+    <p>Verilen doğrulama-öncelikli orkestratör mimarisi birebir uygulandı:</p>
+    <ul>
+      <li><strong>Kapsam</strong> — misyon 5 alt-soruya bölündü.</li>
+      <li><strong>Paralel araştırma</strong> — 5 ajan: pazar boyutu; regülasyon/lisans; rekabet/beyaz alan; program/fon; talep tetikleyicileri.</li>
+      <li><strong>Doğrulama</strong> — 2 bağımsız fact-checker, her kilit iddiayı <em>çürütmeye</em> çalışarak yeniden aradı; iddia başına doğrulama fişi.</li>
+      <li><strong>Kırmızı takım</strong> — ortaya çıkan tez 8 eksende saldırıya uğratıldı.</li>
+      <li><strong>Uzlaştırma</strong> — orkestratör çelişkileri çözdü, güvenleri kesinleştirdi (bu rapor).</li>
+    </ul>
+    <p><strong>Taranan kaynak türleri:</strong> regülatör/resmî (QCB, QFCRA, QFC, QDB/Invest Qatar, MoPH, UNCTAD kanun metinleri, Library of Congress); yüksek-güven bağımsız (Oxford Business Group, DataReportal, büyük hukuk &amp; göçmenlik firmaları); pazar-araştırma satıcıları (Statista, GlobalData, IMARC, Ken Research — dikkatle); düşük-otorite (şirket siteleri — yalnız varlık/ipucu).</p>
+  </section>
+
+  <!-- 3 -->
+  <section id="s3">
+    <div class="sec-head"><span class="sec-num">03</span><h2>Bulgular</h2></div>
+
+    <h3 class="sub">3.1 · Pazar Boyutu &amp; Yapısı <span class="sec-sub">— tanım tuzağı burada</span></h3>
+    <p>Toplam pazar (GWP) için <strong>tek bir rakam yoktur</strong>; tanım belirler:</p>
+    <div class="table-wrap">
+      <table>
+        <caption>Kaynaklar birbirinden ~2–14× ayrışıyor; “toplam” sanılan rakamlar farklı metrikler.</caption>
+        <thead><tr><th>Rakam</th><th>Tanım</th><th>Kaynak (Kademe)</th><th>Yorum</th></tr></thead>
+        <tbody>
+          <tr><td class="num">~US$1,3–1,4bn</td><td>Toplam, <b>raporlanan/gerçekleşen</b> GWP (2024–25)</td><td>Oxford Business Group <span class="tier">T2</span></td><td>En temiz “actuals” atfı</td></tr>
+          <tr><td class="num">~US$1,8bn</td><td>Toplam, gerçekleşen (2022)</td><td>Statista historical <span class="tier">T2–3</span></td><td>OBG’den yüksek</td></tr>
+          <tr><td class="num">~US$2,1bn</td><td><b>Yalnız</b> general/non-life GWP (2023)</td><td>GlobalData <span class="tier">T3</span></td><td>“Toplam”dan büyük → kapsam farkı</td></tr>
+          <tr><td class="num">~US$4,36bn</td><td>Toplam, <b>MODELLENMİŞ</b> outlook (2024)</td><td>Statista Forecast <span class="tier">T3</span></td><td><strong>Aykırı; gerçekleşen değil</strong></td></tr>
+          <tr><td class="num">~US$18,66bn</td><td>“Sigorta pazarı” (2024)</td><td>IMARC <span class="tier">T3</span></td><td><strong>Kullanılmaz aykırı</strong> — 4–14×</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><span class="chip chip--md">Orta</span> Sağlam olan yön: Statista’nın ~US$4,36bn’i <strong>modellenmiş</strong> bir tahmindir ve tüm gerçekleşen rakamların üstündedir; actuals değildir. Gerçekleşen toplam muhtemelen <strong>~US$1,3–2,1bn aralığında</strong>dır; resmî bir QCB toplam-GWP sayısı bulunamadı. <em>Not: QIC Grubu’nun GWP’si (~QAR 9,9bn, 2025) tüm Katar pazarından büyüktür — çünkü çoğu uluslararası iştir; pazar boyutu sanılamaz.</em></p>
+    <ul>
+      <li><strong>Non-life, toplam GWP’nin ~%97,2’si</strong> (2022); hayat minik (penetrasyon %0,02). <span class="chip chip--md">Orta</span></li>
+      <li><strong>Takaful, pazarın ~%7’si</strong> (Q3 2024); conventional %93. <strong>Motor</strong>, general GWP’nin &gt;%18’i. <span class="chip chip--md">Orta</span></li>
+      <li><strong>Yoğunlaşma:</strong> QIC conventional işin ~%70’i — <em>uluslararası kitabı içerir, Katar-içi hakimiyeti abartır.</em> <span class="chip chip--md">Orta</span></li>
+      <li><strong>Penetrasyon ~%0,8 (2023), GCC’nin EN DÜŞÜĞÜ</strong> (GCC ort. ~%1,5; UAE ~%2,5; Oman ~%1,3). Hiçbir GCC ülkesi Katar’ın altında bulunamadı. <span class="chip chip--hi">Yüksek (tavanlı) — “en düşük”</span> <span class="chip chip--md">Orta — kesin ondalık</span></li>
+      <li>Kanal karması (broker/agent/direct/banca %): güvenilir dağılım <strong>bulunamadı</strong> (paywall).</li>
+    </ul>
+
+    <h3 class="sub">3.2 · Regülasyon &amp; Taşıyıcı-Dışı Alan <span class="sec-sub">— en sağlam ve en kararlaştırıcı kısım</span></h3>
+    <p><strong>İki regülatör, iki hukuk düzeni:</strong> QCB (onshore/yurtiçi; conventional + takaful) ve QFCRA/QFC (QFC’de yerleşik firmalar; ayrı common-law çevresi). QFC içinde QFCA (ticari lisans) + QFCRA (yalnız <em>düzenlenen</em> faaliyetlerde). <span class="chip chip--hi">Yüksek (tavanlı)</span></p>
+
+    <h4 class="sub">Kararlaştırıcı — Yabancı sahiplik</h4>
+    <ul>
+      <li><strong>Onshore, sigorta, Yabancı Yatırım Kanunu No. 1/2019’un %100 rejiminden HARİÇTİR</strong> — varsayılan yabancı tavan %49; fazlası Bakanlar Kurulu onayı ister.</li>
+      <li><strong>QFC, %100 yabancı sahiplik + %100 kâr transferi + %10 kurumlar vergisine</strong> izin verir.</li>
+      <li>→ <strong>Yabancı bir solo kurucu için QFC rotası güçlü şekilde tercih edilir.</strong> <span class="chip chip--hi">Yüksek (tavanlı)</span></li>
+    </ul>
+
+    <div class="table-wrap">
+      <table>
+        <caption>Taşıyıcı-dışı en düşük-bariyer şerit: QFC C44 (düzenlenmez) ve — mediation kaçınılmazsa — QFC insurance mediation.</caption>
+        <thead><tr><th>Rota</th><th>Otorite</th><th>Min sermaye</th><th>Yabancı sahiplik</th><th>Güven</th></tr></thead>
+        <tbody>
+          <tr><td>Onshore taşıyıcı (carrier)</td><td>QCB</td><td class="num">QR100m / risk-bazlı</td><td>Kısıtlı (BK)</td><td><span class="chip chip--md">Orta</span></td></tr>
+          <tr><td>Onshore broker/aracı</td><td>QCB</td><td class="num">QR1m (~$275k)+PI</td><td>Kısıtlı</td><td><span class="chip chip--md">Orta</span></td></tr>
+          <tr><td>Onshore PCW/agregatör</td><td>QCB</td><td class="num">QCB-belirler</td><td>Kısıtlı</td><td><span class="chip chip--nn">Rakam Doğrulanamadı</span></td></tr>
+          <tr><td>QFC direct insurer</td><td>QFCRA</td><td class="num">US$10m</td><td>%100</td><td><span class="chip chip--hi">Yüksek (t)</span></td></tr>
+          <tr><td>QFC insurance mediation</td><td>QFCRA</td><td class="num">US$250k / US$500k</td><td>%100</td><td><span class="chip chip--hi">Yüksek (t)</span></td></tr>
+          <tr style="background:var(--accent-soft)"><td><strong>QFC C44 TPA / claims-tech / back-office</strong></td><td><strong>QFCA (düzenlenmez)</strong></td><td class="num"><strong>sigorta sermayesi YOK</strong></td><td><strong>%100</strong></td><td><span class="chip chip--hi">Yüksek (t)</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4 class="sub">En kritik iki bulgu</h4>
+    <ul>
+      <li><strong>QFC C44 “Third Party Administrator” düzenlenmeyen bir faaliyettir</strong> — yalnız QFCA lisansı; QFCRA yetkilendirmesi ve sigorta sermayesi gerekmez. Kapsam: claims işleme/idare, müşteri desteği, underwriting &amp; poliçe-düzenleme <em>desteği</em>. <strong>Sınır:</strong> hiçbir <em>düzenlenen</em> faaliyet (advising/arranging/dealing/selling) yapılamaz. <span class="chip chip--hi">Yüksek (tavanlı)</span></li>
+      <li><strong>QCB “Insurance Price Comparison Website (PCW)” rejimi 6 Ağustos 2023’te yürürlüğe girdi.</strong> PCW yalnız fiyat karşılaştırır; agent/broker olamaz, underwriting yapamaz, prim tahsil edemez ve <strong>“hiçbir sigortacı ile referral (komisyon) anlaşması yapamaz.”</strong> <span class="chip chip--hi">Yüksek (tavanlı)</span> — asgari sermaye <span class="chip chip--nn">Doğrulanamadı</span>. <em>Çelişki uzlaştırması: bir araştırma ajanı “agregatör çerçevesi yok” demişti; bu yanlıştır — çerçeve vardır ve agregatörün para-kazanma modelini (referral) yasaklar.</em></li>
+    </ul>
+
+    <h3 class="sub">3.3 · Rekabet &amp; Beyaz Alan (Katar-özel)</h3>
+    <ul>
+      <li><strong>Agregatör/karşılaştırma:</strong> kategori mevcut ama sığ; <strong>boş değil.</strong> Adaylar: compareinsurance.qa, yallacompare/qat, Ken’in “UCompare (Qatar)”. Gerçek real-time çok-sigortacılı quote-and-bind + QCB PCW lisansı doğrulanamadı. Büyük bölgeseller (PolicyBazaar, Souqalmal, Shory) Katar mukimine hizmet vermiyor. <span class="chip chip--nn">Boşluk: Doğrulanamadı</span></li>
+      <li><strong>B2B çekirdek SaaS:</strong> <strong>Anoud Technologies</strong> (QIC iştiraki, uçtan uca platform, uluslararası satış) — beyaz alan DEĞİL, DOLU. <span class="chip chip--hi">Yüksek</span></li>
+      <li><strong>Embedded:</strong> Ehmini, Hemaayah (QFTH kohortları) — erken/ölçeksiz. <span class="chip chip--md">Orta</span></li>
+      <li><strong>Claims/TPA:</strong> yerleşik TPA’lar (GlobeMed 2007’den, Nextcare, MedNet); AI-claims (Optimize AI, HEDI) erken. <span class="chip chip--md">Orta–Yüksek</span></li>
+      <li><strong>Carrier D2C güçlü:</strong> QIC, DIG, Beema/Damaan tüketici şeridini doldurur; QIC ayrıca MENA Insurtech Accelerator işletir (kingmaker). <span class="chip chip--md">Orta</span></li>
+      <li><strong>Uyarı:</strong> UAE dijital broker Aqeed ($18M) <strong>kapandı</strong> → GCC dijital-dağıtım ekonomisi zorlu. <span class="chip chip--md">Orta</span></li>
+    </ul>
+
+    <h3 class="sub">3.4 · Program Uygunluğu &amp; Fon</h3>
+    <ul>
+      <li><strong>Startup Qatar START:</strong> ≤US$1,1M (PoC/MVP); InsureTech/FinTech açıkça kapsamda. <span class="chip chip--hi">Yüksek (tavanlı)</span> Equity + milestone; “team”/Katar-varlığı eğilimli → solo yumuşak bariyer.</li>
+      <li><strong>QFTH (QDB):</strong> insurtech açıkça kapsamda; accelerator ≤US$170k, incubator ≤US$110k; ayrıca QCB Fintech Development Grant ≤QAR 1,5M. QFC kayıt + QCB sandbox. <span class="chip chip--hi">Yüksek (tavanlı)</span> <strong>Wave 8 başvuruları 31 Mayıs 2026’da kapandı.</strong></li>
+      <li><strong>QFC ücreti:</strong> US$5.000 → <strong>US$500</strong> (17 Şub 2025, düzenlenmeyen faaliyetler). <span class="chip chip--hi">Yüksek (tavanlı)</span></li>
+      <li><strong>Invest Qatar US$1B teşviki: solo’yu DİSKALİFİYE eder</strong> (≥5 FTE, ≥QAR 25M, ≥5 yıl geçmiş, ≥3 yıl gelir). <span class="chip chip--hi">Yüksek (tavanlı)</span></li>
+    </ul>
+    <div class="keyline"><strong>Pivotal soru:</strong> Ürün hukuken <strong>“insurance mediation”</strong> (düzenlenen → QFCRA + ≥US$250k) mi, yoksa <strong>“technology/software”</strong> (düzenlenmeyen → US$500, sermaye yok) mı? Maliyet, sermaye, zaman ve solo-uygunluk bunu belirler.</div>
+
+    <h3 class="sub">3.5 · Talep Sinyalleri &amp; Regülasyon Tetikleyicileri</h3>
+    <ul>
+      <li><strong>Zorunlu ZİYARETÇİ sağlık sigortası: 1 Şubat 2023’ten YÜRÜRLÜKTE</strong> — vize verilmesi MoPH-kayıtlı sigortacıdan online poliçeye bağlı; ~QR50/ay, ~QAR150k. Tek istisna: 30 güne kadar vize-on-arrival. <span class="chip chip--hi">Yüksek (tavanlı)</span></li>
+      <li><strong>İşveren/mukim fazı (Law 22/2021): 2025–26’da operasyonel</strong> — işveren başına ≤QAR 30.000 ceza; iş-izni coverage’a bağlı. <em>Çelişki: OBG 2024 “henüz uygulanmadı” dedi → zamansal snapshot farkı, gerçek ihtilaf değil.</em> <span class="chip chip--hi">İçerik: Yüksek (t)</span> <span class="chip chip--nn">Kesin go-live: Doğrulanamadı</span></li>
+      <li><strong>Zorunlu trafik (TPL):</strong> min ~QAR 400; Metrash2 + QIC + QUBI (parçalı dijital raylar). <span class="chip chip--md">Orta</span></li>
+      <li><strong>Demografi:</strong> nüfus ~3,21M (2025 sonu), expat ~%88; internet ~%99, akıllı telefon ~%97. <span class="chip chip--hi">Yüksek (tavanlı)</span></li>
+      <li><strong>Fırsat söylemi (dikkatle):</strong> OBG “dijital platformlar +~QAR 1 milyar prim yakalayabilir”; QFC anketi “%82 exec insurtech’i büyük sürücü görüyor”; SME “traditionally untapped”. <span class="chip chip--md">Orta</span></li>
+      <li><strong>Kırmızı-takım uyarısı (materyal):</strong> MoPH, sağlık-claims için ulusal tek geçit <strong>QHIE-Hub</strong> kuruyor ve veri-işleyen her kuruluşa MoPH kaydı zorunlu (Minister Decision No. 8 / 2022). → değer devlete akar + yeni kayıt yükü. <span class="chip chip--lo">Düşük–Orta; doğrulanmalı</span></li>
+    </ul>
+  </section>
+
+  <!-- 4 -->
+  <section id="s4">
+    <div class="sec-head"><span class="sec-num">04</span><h2>Fırsat / Seçenek Karşılaştırması</h2></div>
+    <p>Düşük regülasyon yükü = iyi. Her hücre bulgulara dayanır. Katar-içinde tek nefes alabilen kutu <strong class="rank">F1</strong>’dir.</p>
+    <div class="table-wrap">
+      <table>
+        <caption>Ölçekler: pazar kanıtı · beyaz alan · MVP yapılabilirliği (solo) · regülasyon yükü · program uyumu · solo-yabancı uygunluğu.</caption>
+        <thead><tr><th>Fırsat alanı</th><th>Pazar kanıtı</th><th>Beyaz alan</th><th>MVP (solo)</th><th>Regülasyon yükü</th><th>Program</th><th>Solo-yabancı</th><th>Net</th></tr></thead>
+        <tbody>
+          <tr style="background:var(--accent-soft)">
+            <td><span class="rank">F1</span> Düzenlenmeyen back-office/uyum/raporlama SaaS <span style="color:var(--muted)">(mediation/PCW’ye dokunmaz)</span></td>
+            <td>Orta</td><td>Orta</td><td><strong>Yüksek</strong></td><td><strong>Düşük ✓</strong></td><td>Yüksek</td><td><strong>En yüksek</strong></td><td><strong>En az-kötü Katar-içi</strong></td>
+          </tr>
+          <tr>
+            <td><span class="rank">F2</span> SME işveren-sağlık onboarding/admin</td>
+            <td><strong>Yüksek</strong></td><td>Orta</td><td>Orta</td><td><strong>Yüksek risk</strong> (arranging → mediation; + QHIE-Hub)</td><td>Yüksek</td><td>Düşük–Orta</td><td>Cazip ama regülatif tuzak</td>
+          </tr>
+          <tr>
+            <td><span class="rank">F3</span> Health-claims otomasyon AI</td>
+            <td>Yüksek</td><td><strong>Düşük</strong> (Optimize AI, HEDI, GlobeMed)</td><td>Orta</td><td><strong>Yüksek</strong> (QHIE-Hub + kayıt)</td><td>Yüksek</td><td>Düşük</td><td>Dolu + devletleşiyor</td>
+          </tr>
+          <tr>
+            <td><span class="rank">F4</span> Broker/agency quote-bind &amp; CRM</td>
+            <td>Düşük (22 broker)</td><td>Düşük–Orta (Anoud/Novidea)</td><td>Orta</td><td>Orta</td><td>Orta</td><td>Düşük</td><td>Alıcı havuzu çok küçük</td>
+          </tr>
+          <tr>
+            <td><span class="rank">F5</span> Embedded sigorta etkinleştirme</td>
+            <td>Orta</td><td>Düşük–Orta (Ehmini, Hemaayah)</td><td>Orta</td><td><strong>Yüksek</strong> (“arranging” = mediation)</td><td>Yüksek</td><td>Düşük</td><td>Regüle + kontestan</td>
+          </tr>
+          <tr>
+            <td><span class="rank">F6</span> Agregatör / PCW karşılaştırma</td>
+            <td>Orta</td><td>Orta (sığ)</td><td>Orta</td><td><strong>Yüksek</strong> (PCW lisansı; yabancı kısıtı; referral yasak)</td><td>Düşük</td><td><strong>En düşük</strong></td><td>Önerilmez</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>Okuma:</strong> F1 tek “düşük yük + yüksek solo-yapılabilirlik” kombinasyonunu taşır. Ama bedeli, onu <em>cazip</em> kılan her şeyden (dağıtım, embedded, claims-routing) uzak durmaktır — “kimsenin acilen almadığı atıl araç” riski. F2–F6, küçük alıcı havuzu / regülatif perimetre / devlet-geçidi nedeniyle solo-yabancı için zayıftır.</p>
+  </section>
+
+  <!-- 5 -->
+  <section id="s5">
+    <div class="sec-head"><span class="sec-num">05</span><h2>Öneri</h2></div>
+    <h3 class="sub">5.1 · Birincil — Katar’ı çıpa yapmayın</h3>
+    <p>Sigorta-teknolojisi hedefiyse, <strong>UAE ve/veya Suudi Arabistan için inşa edin</strong> (alıcı yoğunluğu, broker sayısı ve sermaye 10–50× büyük) ve <strong>Katar’ı sonraki bir genişleme adımı</strong> olarak tutun. Bu; doğrulanmış pazar-küçüklüğü <span class="chip chip--hi">Yüksek (t)</span>, alıcı-yoğunluğu düşüklüğü <span class="chip chip--md">Orta</span> ve dikey-entegre QIC hakimiyeti <span class="chip chip--md">Orta–Yüksek</span> bulgularına dayanır — doğrulanmamış bir pazar-abartısına değil.</p>
+    <h3 class="sub">5.2 · Katar sert bir kısıtsa</h3>
+    <ul>
+      <li><strong>Yapı:</strong> QFC’de <strong>düzenlenmeyen C44/teknoloji</strong> olarak şirketleşin (%100 sahiplik, sigorta sermayesi yok, US$500). Onshore broker/PCW/carrier rotalarından kaçının.</li>
+      <li><strong>Ürün:</strong> <strong>F1</strong> ekseninde, yerleşiklerin (Anoud/QIC) inşa etmeye değmez bulacağı <strong>dar, gerçekten-düzenlenmeyen bir B2B araç</strong> seçin ve mediation ile QHIE-Hub/MoPH perimetrelerinden titizlikle uzak durun. MVP’den önce QFCRA ile “perimeter” görüşmesi + Katar sigorta avukatından yazılı görüş alın.</li>
+      <li><strong>Fon/validasyon:</strong> QFTH ve Startup Qatar START — ama <em>plan</em> değil <em>ihtimal</em> sayın (Wave 8 kapandı; ekip/traction eğilimli; MENA fon iklimi düşüşte).</li>
+      <li><strong>Doğrulama görevi (MVP’den önce):</strong> (a) toplam GWP/segment rakamları birincil QCB’den; (b) compareinsurance.qa &amp; QCB PCW-lisans listesinin gerçek durumu; (c) QHIE-Hub/Minister Decision 8/2022’nin tech-satıcıya kayıt yükü.</li>
+    </ul>
+    <h3 class="sub">5.3 · Önerilmeyen</h3>
+    <p>Agregatör/PCW (F6), embedded (F5) ve saf health-claims (F3) — regülatif/devlet-geçidi yükü ve dolu alan nedeniyle solo-yabancı-düşük-sermaye profiliyle çelişir.</p>
+    <p style="color:var(--muted)">Öneri, hiçbir doğrulanmamış pazar-boyutu abartısına dayanmaz; doğrulanan <em>küçüklük</em> ve <em>dolu-alan</em> bulguları Katar-öncelikli venture’a karşı, hukuki <em>yapı</em> içgörüsü ise dar bir Katar-içi seçeneğe temkinli-lehte konuşur.</p>
+  </section>
+
+  <!-- 6 -->
+  <section id="s6">
+    <div class="sec-head"><span class="sec-num">06</span><h2>Karşı Argümanlar / Riskler <span class="sec-sub" style="font-style:normal;font-size:.6em;color:var(--muted)">(Kırmızı Takım)</span></h2></div>
+    <ol>
+      <li><strong>Beyaz alan yok + dikey-entegre hâkim alıcı.</strong> QIC pazarı <em>da</em> B2B platformu (Anoud) <em>da</em> hızlandırıcıyı domine eder; büyük müşteriler in-house yapar. <span class="chip chip--lo">Fatal — “beyaz alan” için</span></li>
+      <li><strong>Cazip nişler ya regüle ya devletleşmiş.</strong> IMEB’in “assisting in administration/arranging” tanımı onboarding/embedded/dağıtım araçlarını QFCRA (≥US$250k) alanına çeker; zorunlu-sağlık claims akışı devlet QHIE-Hub’ından geçer. <span class="chip chip--lo">Serious</span></li>
+      <li><strong>Kurucu kısıtları GTM ile çelişik.</strong> Solo + düşük-sermaye + yabancı + lisanssız, ~bir düzine muhafazakâr, Arapça-öncelikli kuruma 9–18 aylık kurumsal satış yapamaz. <span class="chip chip--lo">Serious–Fatal</span></li>
+      <li><strong>TAM çok küçük.</strong> ~12–30 sigortacı + ~22 broker; kazanılabilir SAM ~3–6 logo. Venture-ölçek değil. <span class="chip chip--lo">Serious</span></li>
+      <li><strong>Program-fonu bir loto.</strong> Wave 8 kapandı; START ~20 şirket/yıl, equity-seyreltici; <strong>MENA startup fonu H1 2026’da %22 düştü ($1,35bn; deal −41%)</strong>, insurtech keskin düşüşte. <span class="chip chip--lo">Serious</span></li>
+      <li><strong>Kanıt kalitesi (meta).</strong> Tezin en güçlü dayanağı (büyük/büyüyen pazar) en güvenilmez kısmıdır; rakamlar çelişik ve primary açılmadı. <span class="chip chip--lo">Serious</span></li>
+      <li><strong>Karşı-tez:</strong> UAE/KSA’ya inşa et ve Katar’ı sonraya bırak; ya da Katar’da farklı bir sektör seç (devlet-bitişik dijitalleşme, lojistik, turizm) — orada Katar’ın küçüklüğü lanet değil avantaj.</li>
+    </ol>
+    <div class="keyline"><strong>En güçlü 3 çöküş nedeni:</strong> (i) dikey-entegre QIC + dolu alan; (ii) cazip nişlerin regüle/devletleşmiş olması; (iii) kurucu kısıtları ile kurumsal-satış GTM’inin bağdaşmazlığı.</div>
+  </section>
+
+  <!-- 7 -->
+  <section id="s7">
+    <div class="sec-head"><span class="sec-num">07</span><h2>Doğrulanamayan İddialar <span class="sec-sub" style="font-style:normal;font-size:.6em;color:var(--muted)">(şeffaflık)</span></h2></div>
+    <p>Misyona değer ama <strong>teyit edilemedi; sayı/olgu olarak güvenilmemeli:</strong></p>
+    <ul>
+      <li>Toplam pazar için tek bir “doğru” GWP rakamı — resmî QCB toplamı bulunamadı (~$1,3–2,1bn dağılıyor).</li>
+      <li>QCB PCW asgari sermaye tutarı — rejim var, rakam yok.</li>
+      <li>Katar’da canlı çok-sigortacılı quote-and-bind agregatörü boşluğunun boş olup olmadığı.</li>
+      <li>“yallacompare Qatar’daki ilk finans karşılaştırma sitesi” — yalnız self-marketing. <span class="chip chip--lo">Düşük</span></li>
+      <li>“Beema Qatar’ın ilk tam dijital sigorta şirketi” — <strong>QIC de aynı unvanı iddia ediyor</strong>; mutlak iddia çürüdü. <span class="chip chip--nn">Doğrulanamadı</span></li>
+      <li>“Anoud küresel top-ten insurtech” — gerçek bir ACORD tanınması var ama 2020 &amp; kategori-özel; güncel/mutlak okunuş abartılı. <span class="chip chip--md">Orta</span></li>
+      <li>İşveren-fazı zorunlu sağlık sigortasının kesin evrensel go-live tarihi.</li>
+      <li>QHIE-Hub / Minister Decision 8/2022’nin tech-satıcıya net kayıt yükü — materyal, doğrulanmalı.</li>
+      <li>QFTH Wave-8 “~$75k” rakamı — doğrulanamadı ($170k accelerator / $110k incubator doğrulandı).</li>
+    </ul>
+  </section>
+
+  <!-- 8 -->
+  <section id="s8">
+    <div class="sec-head"><span class="sec-num">08</span><h2>Kaynaklar</h2></div>
+    <p style="color:var(--muted);font-size:14.5px">Erişim: 14 Tem 2026. <strong>Hiçbiri birincil sayfadan açılmadı</strong> — WebSearch ekstresi (egress kısıtı).</p>
+    <div class="src-group">
+      <div class="gh">Kademe 1 — Regülatör / Resmî</div>
+      <ol class="src">
+        <li><b>Qatar Central Bank (QCB)</b> — Insurance Supervision; PCW Regulation (yür. 06/08/2023); 3rd Financial Sector Strategic Plan.</li>
+        <li><b>Qatar Financial Centre (QFC)</b> — Benefits; Non-Regulated Activities (C44 TPA); ücret indirimi (17/02/2025).</li>
+        <li><b>QFCRA Rulebook</b> — IMEB 2011 (insurance mediation); CAPI/PINS (min sermaye).</li>
+        <li><b>Ministry of Public Health (MoPH)</b> — Mandatory Health Insurance; QHIE-Hub / Minister Decision No. 8 / 2022.</li>
+        <li><b>QNA</b> — PCW lisans başvuruları (01/10/2023). <b>UNCTAD</b> — Foreign Investment Law No. 1 / 2019.</li>
+        <li><b>US Dept of State</b> — Qatar Investment Climate; trade.gov Distribution guide. <b>Library of Congress</b> — vize sağlık-sigortası (12/06/2023).</li>
+        <li><b>QDB / Startup Qatar / Invest Qatar</b> — Investment Program, QFTH, US$1B teşvikler. <b>NPC/PSA</b> — nüfus (relay).</li>
+      </ol>
+    </div>
+    <div class="src-group">
+      <div class="gh">Kademe 2 — Yüksek-güven bağımsız</div>
+      <ol class="src" start="8">
+        <li><b>Oxford Business Group</b> — The Report: Qatar 2024 &amp; 2025 (Insurance &amp; Health).</li>
+        <li><b>Fragomen, Marsh, Lockton, K&amp;L Gates, Clyde&amp;Co, Chambers</b> — sağlık &amp; yabancı-sahiplik &amp; lisans brifingleri.</li>
+        <li><b>DataReportal</b> — Digital 2025 Qatar; ITU. <b>S&amp;P Global Ratings</b> (Gulf Times/Peninsula relay) — kârlılık.</li>
+        <li><b>Alpen Capital</b> — GCC Insurance Report 2024. <b>Mondaq / Lexology / Sultan Al-Abdulla &amp; Partners</b> — QFC mediation, PCW.</li>
+        <li><b>ACORD / Alchemy Crew</b> — Anoud “Top-Ten InsurTech Leaders 2020”.</li>
+      </ol>
+    </div>
+    <div class="src-group">
+      <div class="gh">Kademe 3–4 — Satıcı raporları &amp; düşük-otorite (yalnız ipucu)</div>
+      <ol class="src" start="13">
+        <li><b>Statista</b> (outlook modeled + historical), <b>GlobalData</b>, <b>IMARC / Ken / Research&amp;Markets</b> (aykırı; kullanılmadı), <b>rentechdigital</b> (broker sayımı).</li>
+        <li>Şirket siteleri: anoudtechnologies, qic.online, beema.com.qa, compareinsurance.qa, hemaayah.com, yallacompare. <b>Wamda / Crunchbase</b> — MENA fon düşüşü, Aqeed kapanışı.</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 9 -->
+  <section id="s9">
+    <div class="sec-head"><span class="sec-num">09</span><h2>Varsayımlar &amp; Sınırlar</h2></div>
+    <ul>
+      <li><strong>En büyük sınır:</strong> birincil kaynaklar açılamadı (egress); tüm kanıt WebSearch triangülasyonu. Güven tavanı “Yüksek (tavanlı)”ya sabittir; kilit rakamlar nihai karardan önce birincil teyit ister.</li>
+      <li><strong>Varsayılan misyon:</strong> netleştirme yanıtı ulaşmadığından misyon, sistem promptundaki sigorta örneği + örnek kısıtlar (solo, yabancı, düşük-sermaye, taşıyıcı-değil, Katar+GCC) olarak alındı.</li>
+      <li><strong>Daha derin araştırma gereken yerler:</strong> resmî QCB toplam-GWP; QCB PCW sermayesi + lisans alan firmalar; QHIE-Hub/Minister Decision 8/2022 kayıt yükü; onshore yabancı-sahiplik istisnasının intermediary/PCW’yi kapsayıp kapsamadığı; QFC C44 “underwriting support” ile binding authority sınırı; UAE/KSA karşılaştırmalı fırsat derinliği.</li>
+      <li><strong>Tanım disiplini:</strong> “toplam GWP”, “general/non-life”, “modellenmiş outlook”, “dijital/insurtech pazarı”, “QIC Grubu (uluslararası) GWP” ayrı tutulmuş; asla aynı büyüme hikâyesinde birleştirilmemiştir.</li>
+    </ul>
+    <footer>
+      Definition-of-Done: her nicel iddia bir doğrulama fişine dayanır; hiçbir “Yüksek” etiketi tek kaynağa dayanmaz; her pazar-rakamının tanımı yazılıdır; tüm “yok/ilk/tek/en büyük” iddiaları çürütme denemesinden geçmiştir; çelişkiler (PCW çerçevesi; pazar-boyutu soyları; işveren-mandate zamanlaması) gizlenmeden uzlaştırılmıştır; doğrulanamayanlar ayrı bölümdedir; öneri doğrulanmamış bir pazar-abartısına dayanmaz.
+    </footer>
+  </section>
+
+</div>
+</body>
+</html>
