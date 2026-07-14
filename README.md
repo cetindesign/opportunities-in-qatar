@@ -15,6 +15,9 @@ taşıyıcı-olmayan kurucu. Coğrafya: Katar (birincil), GCC (ikincil).
 - **[Startup-Qatar-Fintech-Giris-Raporu.md](./Startup-Qatar-Fintech-Giris-Raporu.md)** — Startup Qatar
   platformunun talep kategorileri (sektörler + destek türleri), FinTech'ten giriş yolu (QFTH / QCB Sandbox /
   QFC), seçim kriterleri ve solo/yabancı kurucu için enabler ürün yönleri.
+- **[ENDtrader-Katar-Giris-Analizi.md](./ENDtrader-Katar-Giris-Analizi.md)** — ENDtrader V4 (Bybit kripto
+  vadeli işlem botu) ürününün Katar teşviklerine uygunluk analizi: kripto regülasyon duvarı (QCB yasağı,
+  QFC "Excluded Tokens", QFCRA regüle faaliyet, Şeriat), yeniden konumlandırma yolları ve öneri.
 
 ## Yöntem
 1 kapsam + 5 paralel araştırma + 2 bağımsız fact-checker (çürütme odaklı) + 1 kırmızı-takım ajanı; ardından
