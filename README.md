@@ -9,9 +9,17 @@ Startup Qatar/QFTH uygunluğu ile değerlendirir ve önceliklendirir. Bağlam: s
 taşıyıcı-olmayan kurucu. Coğrafya: Katar (birincil), GCC (ikincil).
 
 ## İçindekiler
+
+**Sigorta fırsat çalışması**
 - **[Katar-Sigorta-Firsat-Raporu.md](./Katar-Sigorta-Firsat-Raporu.md)** — ana rapor (yönetici özeti,
   bulgular, fırsat karşılaştırması, öneri, karşı-argümanlar, doğrulanamayanlar, kaynaklar, sınırlar).
 - **[EK-Dogrulama-Fisleri.md](./EK-Dogrulama-Fisleri.md)** — her yük-taşıyan iddia için doğrulama fişleri.
+
+**FinTech / tokenize varlık analizleri**
+- **[AuraGold-Sektor-Analizi-ve-Gorunum.md](./AuraGold-Sektor-Analizi-ve-Gorunum.md)** — "AuraGold"
+  ($750K tohum) yatırım destesinin ve dâhil olduğu sektörün (tokenize altın · helal FinTech · RWA · GCC
+  robo-danışmanlık) eleştirel analizi + gelecek görünümü/senaryolar. Aynı doğrulama-öncelikli,
+  güven-etiketli metodoloji.
 
 ## Yöntem
 1 kapsam + 5 paralel araştırma + 2 bağımsız fact-checker (çürütme odaklı) + 1 kırmızı-takım ajanı; ardından
